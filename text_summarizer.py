@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup as bs
 import re
 import nltk
 import heapq
+import Sentence&Word_tokenizer as sw
 
 url="https://en.wikipedia.org/wiki/Machine_learning"
 allContent=""
@@ -20,8 +21,7 @@ finalContent=re.sub(r'\s+',' ',allContent_cleaned)
 
 #Creating sentence token
 
-sentence_tokens=nltk.sent_tokenize(finalContent)
-words_tokens=nltk.word_tokenize(finalContent)
+sentence_tokens,words_tokens=sw.tokenizer(finalContent)
 
 #calculate frequency
 
