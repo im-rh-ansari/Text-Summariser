@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup as bs
 import re
 import nltk
 import heapq
+import Sentence&Word_tokenizer as sw
+import Score_calculator as sc
 
 url="https://en.wikipedia.org/wiki/Machine_learning"
 allContent=""
@@ -20,8 +22,7 @@ finalContent=re.sub(r'\s+',' ',allContent_cleaned)
 
 #Creating sentence token
 
-sentence_tokens=nltk.sent_tokenize(finalContent)
-words_tokens=nltk.word_tokenize(finalContent)
+sentence_tokens,words_tokens=sw.tokenizer(finalContent)
 
 #calculate frequency
 
@@ -44,16 +45,7 @@ for word in word_frequencies.keys():
 
 #calculate sentence score
 
-sentence_scores={}
-
-for sentence in sentence_tokens:
-    for word in nltk.word_tokenize(sentence.lower()):
-        if word in word_frequencies.keys():
-            if(len(sentence.split(' ')))<30:
-                if sentence not in sentence_scores.keys():
-                    sentence_scores[sentence]=word_frequencies[word]
-                else:
-                    sentence_scores[sentence]+=word_frequencies[word]
+sentence_scores=sc.score(sentence_tokens,word_frequencies)
 
 summary= heapq.nlargest(10,sentence_scores,key=sentence_scores.get)
 print(summary)
