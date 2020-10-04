@@ -1,21 +1,11 @@
-from urllib import request
-from bs4 import BeautifulSoup as bs
-import re
 import nltk
 import heapq
 import Sentence&Word_tokenizer as sw
 import Score_calculator as sc
+import Collect_info as collect
 
 url="https://en.wikipedia.org/wiki/Machine_learning"
-allContent=""
-
-htmlDoc=request.urlopen(url)
-
-soupObject=bs(htmlDoc,'html.parser')
-paraContents=soupObject.findAll('p')
-
-for paraContent in paraContents:
-    allContent+=paraContent.text
+allContent= collect.info(url)
     
 allContent_cleaned=re.sub(r'\[[0-9]*\]',' ',allContent)
 finalContent=re.sub(r'\s+',' ',allContent_cleaned)
